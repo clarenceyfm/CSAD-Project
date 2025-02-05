@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+    <script>
+        function toggleTaskWidget() {
+            var taskContent = document.getElementById("taskContent");
+        
+            // Toggle between showing and hiding the task list
+            if (taskContent.style.display === "block") {
+                taskContent.style.display = "none"; // Hide the task list
+            } else {
+                taskContent.style.display = "block"; // Show the task list
+                loadTasks(); 
+            }
+        }
+        
+        
+        function loadTasks() {
+            var taskList = document.getElementById("taskList");
+        
+            tasks.forEach((task, index) => {
+                let li = document.createElement("li");
+                li.textContent = task;
+                li.onclick = () => removeTask(index); // Click to remove task
+                taskList.appendChild(li);
+            });
+        }
+        
+        
+        // Function to remove a task when clicked
+        function removeTask(index) {
+            tasks.splice(index, 1); // Remove task from array
+            loadTasks(); // Refresh the list
+        }
+        
+        // Load tasks on page load
+        window.onload = loadTasks;
+    </script>
+</head>
+
+<body style = "background: linear-gradient(135deg, #525252, #2C3E50);">
+    <h1>Tasktopia</h1>
+    <div class="displaybox">
+        <div class="card">
+            <h2>CSAD group1</h2>
+            <a href = "projectdetails.html">
+                <button>Show Details</button>
+            </a>
+        </div>
+        <div class="card">
+            <h2>MAD group1</h2>
+            <a href = "projectdetails.html">
+                <button>Show Details</button>
+            </a>
+        </div>
+    </div><br> 
+    <a href ="newproject.html">
+        <button>Create Project</button>
+    </a>
+    <div class="task-widget">
+        <button class="toggle-btn" onclick="toggleTaskWidget()">🔔Tasks</button>
+
+        <!-- Collapsible Task List -->
+        <div class="task-content" id="taskContent">
+            <h4>To-Do List</h4>
+            <ul id="taskList">
+                
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

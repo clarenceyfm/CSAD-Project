@@ -36,10 +36,8 @@ body {
   flex-direction: column; /* Stack items vertically */
   justify-content: center; /* Centers content vertically */
   align-items: center; /* Centers content horizontally */
-  min-width: 320px;
-  min-height: 100vh;
-  background-color: #525252;
   text-align: center;
+  min-height: 100vh
   
 }
 
@@ -47,7 +45,7 @@ h1 {
   font-size: 3.2em;
   line-height: 1.1;
   position: absolute;
-  top: 10px; /* Keeps the title at the top */
+  top: 5px; /* Keeps the title at the top */
   text-align: center;
   width: 28%;
 }
@@ -62,6 +60,53 @@ h1 {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
   width: 300px; /* Adjust width */
 }
+.displaybox {
+  display: grid; /* Enables horizontal layout */
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: flex-start; /* Aligns cards to the left */
+  align-items: center; /* Centers them vertically */
+  gap: 20px; /* Adds space between cards */
+  max-height: calc(2 * 170px + 20px); /* Allows only 4 cards (2 rows) at a time */
+  overflow-y: auto; /* Enables vertical scrolling */
+
+  background: #444;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+
+  width: auto; /* Adjust width based on content */
+  height: auto; /* Allow dynamic height */
+}
+
+.displaybox::-webkit-scrollbar {
+  width: 8px;
+}
+
+.displaybox::-webkit-scrollbar-track {
+  background: #222;
+  border-radius: 10px;
+}
+
+.displaybox::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 10px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  background: #555;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+
+  width: 250px; /* Set width for each card */
+  height: auto; /* Adjust height dynamically */
+}
+
 
 button {
   border-radius: 8px;
@@ -100,3 +145,70 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+/* Task Widget */
+.task-widget {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 200px;
+  background: #333;
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+/* Button to Toggle Task Widget */
+.toggle-btn {
+  width: 100%;
+  background: #444;
+  color: white;
+  font-size: 18px;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+}
+
+.toggle-btn:hover {
+  background: #555;
+}
+
+/* Collapsible Task Content */
+.task-content {
+  display: none; /* Initially hidden */
+  padding: 10px;
+}
+
+/* Task Input Field */
+#taskInput {
+  width: 80%;
+  padding: 5px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+}
+
+/* Task List */
+#taskList {
+  list-style: none;
+  padding: 0;
+  max-height: 150px; /* Set max height for scroll */
+  overflow-y: auto; /* Enables scrolling */
+}
+
+/* Task Items */
+#taskList li {
+  padding: 8px;
+  background: #444;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#taskList li:hover {
+  background: #555;
+}
+
+
