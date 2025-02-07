@@ -12,26 +12,45 @@ if (!isset($_SESSION["email"]) || empty($_SESSION["email"])) {
 
 $user_email = $_SESSION["email"];
 
-// Read JSON input
+// Get request data
 $data = json_decode(file_get_contents("php://input"), true);
-
-if (!isset($data["name"]) || !isset($data["start_date"]) || !isset($data["end_date"])) {
-    echo json_encode(["success" => false, "error" => "Missing project details"]);
+if (!isset($data["name"], $data["start_date"], $data["end_date"])) {
+    echo json_encode(["success" => false, "error" => "Missing required fields"]);
     exit();
 }
 
-$name = $data["name"];
+$project_name = $data["name"];
 $start_date = $data["start_date"];
 $end_date = $data["end_date"];
+$members = $data["members"] ?? []; // Team members (optional)
 
-// Insert project into database
-$insertQuery = "INSERT INTO projects (name, owner_email, start_date, end_date) VALUES (?, ?, ?, ?)";
-$stmt = $conn->prepare($insertQuery);
-$stmt->bind_param("ssss", $name, $user_email, $start_date, $end_date);
-
-if ($stmt->execute()) {
-    echo json_encode(["success" => true]);
-} else {
-    echo json_encode(["success" => false, "error" => "Database insert failed"]);
+// Insert new project
+$insertProjectSQL = "INSERT INTO projects (name, owner_email, start_date, end_date) VALUES (?, ?, ?, ?)";
+$stmt = $conn->prepare($insertProjectSQL);
+$stmt->bind_param("ssss", $project_name, $user_email, $start_date, $end_date);
+if (!$stmt->execute()) {
+    echo json_encode(["success" => false, "error" => "Failed to create project"]);
+    exit();
 }
+
+// Get the project ID of the newly created project
+$project_id = $conn->insert_id;
+
+// Insert owner into project_members table
+$insertOwnerSQL = "INSERT INTO project_members (project_id, user_email) VALUES (?, ?)";
+$stmt = $conn->prepare($insertOwnerSQL);
+$stmt->bind_param("is", $project_id, $user_email);
+$stmt->execute();
+
+// Insert selected team members into project_members table
+foreach ($members as $member_email) {
+    if (!empty($member_email) && $member_email !== $user_email) { // Avoid duplicate owner insert
+        $insertMemberSQL = "INSERT INTO project_members (project_id, user_email) VALUES (?, ?)";
+        $stmt = $conn->prepare($insertMemberSQL);
+        $stmt->bind_param("is", $project_id, $member_email);
+        $stmt->execute();
+    }
+}
+
+echo json_encode(["success" => true]);
 ?>
