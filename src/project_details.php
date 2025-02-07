@@ -49,42 +49,84 @@ while ($row = $task_result->fetch_assoc()) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Details | tasktopia</title>
+    <link href="./output.css" rel="stylesheet">
 </head>
-<body>
-    <header>
-        <h1><?php echo htmlspecialchars($project['name']); ?></h1>
-        <p>Owner: <?php echo htmlspecialchars($project['owner_email']); ?></p>
-        <p>Start Date: <?php echo htmlspecialchars($project['start_date']); ?></p>
-        <p>End Date: <?php echo htmlspecialchars($project['end_date']); ?></p>
-        <button onclick="window.location.href='dashboard.php'">Back to Dashboard</button>
-        <button onclick="window.location.href='gantt_chart.php?id=<?php echo $project_id; ?>'">View Gantt Chart</button>
-        <button onclick="window.location.href='project_members.php?id=<?php echo $project_id; ?>'">View Members</button>
-    </header>
 
-    <main>
-        <h2>Tasks</h2>
-        <button onclick="window.location.href='create_task.php?project_id=<?php echo $project_id; ?>'">+ Add Task</button>
+<body style="background: linear-gradient(135deg, #525252, #2C3E50);" class="min-h-screen">
 
-        <div id="task-list">
-            <?php if (empty($tasks)): ?>
-                <p>No tasks found. Add one!</p>
-            <?php else: ?>
-                <?php foreach ($tasks as $task): ?>
-                    <div>
-                        <h3><?php echo htmlspecialchars($task['name']); ?></h3>
-                        <p>Assigned to: <?php echo htmlspecialchars($task['assigned_email'] ?? "Unassigned"); ?></p>
-                        <p>Start Date: <?php echo htmlspecialchars($task['start_date']); ?></p>
-                        <p>End Date: <?php echo htmlspecialchars($task['end_date']); ?></p>
-                        <p>Progress: <?php echo htmlspecialchars($task['progress']); ?>%</p>
-                        <button onclick="window.location.href='update_task.php?id=<?php echo $task['id']; ?>'">Edit Task</button>
+    <h1 class=" mt-20 text-6xl text-center text-white font-bold">tasktopia</h1>
+
+    <div class="flex justify-center text-center items-center">
+        <div class="container mt-16 px-6 p-4 text-white bg-[#444] h-auto rounded-lg shadow-md overflow-y-auto w-5xl" id="details">
+            <h2 class="text-5xl font-semibold text-white mx-auto text-wrap mb-15 mt-2 bg-blue-300/55 bg-auto p-2 shadow-md items-center size-auto rounded-2xl">
+                <?php echo htmlspecialchars($project['name']); ?>
+            </h2>
+            <div class=" mt-8 container px-6 p-4 text-white bg-neutral-500 mb-3 h-auto rounded-lg shadow-md overflow-y-auto w-auto text-center">
+                <div class="mt-2 font-normal">Owner: <span id="name" class="text-white"><?php echo htmlspecialchars($project['owner_email']); ?></span> </div>
+                <br>
+                <div class="font-normal">Email: <span id="email" class="text-white"> - </span> </div>
+                <br>
+                <div class="font-normal">Start Date: <span id="start" class="text-white"><?php echo htmlspecialchars($project['start_date']); ?></span> </div>
+                <br>
+                <div class="font-normal">Due Date: <span id="due" class="text-white"><?php echo htmlspecialchars($project['end_date']); ?></span> </div>
+                <br>
+                <div class="mt-7">
+
+                    <button onclick="window.location.href='dashboard.php'" class="cursor-pointer text-neutral-300 text-s text-center py-2.5 px-5 rounded-xl bg-gray-800 transition delay-150 duration-300 ease-in-out hover:bg-gray-700 hover:scale-110">
+                        Back to Dashboard
+                    </button>
+
+                    <button onclick="window.location.href='project_members.php?id=<?php echo $project_id; ?>'" class="cursor-pointer text-neutral-300 text-center py-2.5 px-5 ml-8 mb-2.5 rounded-xl bg-gray-800 transition delay-150 duration-300 ease-in-out hover:bg-gray-700 hover:scale-110">
+                        View Members
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- <button onclick="window.location.href='gantt_chart.php?id='">View Gantt Chart</button> -->
+
+
+
+            <main>
+                <div class="mt-8 container px-6 p-4 text-white bg-neutral-500 h-auto rounded-lg shadow-md overflow-y-auto w-auto text-center">
+                    <h2 class="text-3xl"> Tasks: </h2>
+
+                    <button onclick="window.location.href='create_task.php?project_id=<?php echo $project_id; ?>'" class="cursor-pointer text-neutral-300 text-center py-1.5 px-4 mt-7 rounded-xl bg-gray-800 transition delay-150 duration-300 ease-in-out hover:bg-gray-700 hover:scale-110">+ Add Task</button>
+
+                    <div id="task-list" class=" ">
+                        <div id="task-list">
+                            <?php if (empty($tasks)): ?>
+                                <p class="mt-7 mb-7 ">No tasks found. Add one!</p>
+                            <?php else: ?>
+                                <div class="grid grid-cols-3 gap-4 auto-cols-max auto-rows-max">
+                                    <?php foreach ($tasks as $task): ?>
+                                        <div class="bg-gray-400 p-4 rounded-lg shadow-md h-auto w-auto text-wrap hover:shadow-xl transition-shadow ">
+
+                                            <p class="text-2xl text-white font-normal"><?php echo htmlspecialchars($task['name']); ?></p>
+                                            <p class="text-white mt-2 text-wrap font-normal">Assigned to: <?php echo htmlspecialchars($task['assigned_email'] ?? "Unassigned"); ?></p>
+                                            <p class="mt-2 text-white font-normal">Start Date: <?php echo htmlspecialchars($task['start_date']); ?></p>
+                                            <p class="mt-2 text-white font-normal">End Date: <?php echo htmlspecialchars($task['end_date']); ?></p>
+                                            <p class="mt-2 text-white font-normal">Progress: <?php echo htmlspecialchars($task['progress']); ?>%</p>
+
+                                            <button onclick="window.location.href='update_task.php?id=<?php echo $task['id']; ?>'" class="cursor-pointer text-neutral-300 text-center py-1.5 px-4 mt-5 rounded-xl bg-gray-800 transition delay-150 duration-300 ease-in-out hover:bg-gray-700 hover:scale-110">Edit Task</button>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
                     </div>
-                <?php endforeach; ?>
-            <?php endif; ?>
+                </div>
+            </main>
         </div>
-    </main>
+    </div>
+
 </body>
+
 </html>
