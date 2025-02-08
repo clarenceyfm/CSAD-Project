@@ -13,6 +13,7 @@ $user_email = $_SESSION["email"];
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,27 +36,29 @@ $user_email = $_SESSION["email"];
             });
 
             fetch("add_project.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    name: projectName,
-                    start_date: startDate,
-                    end_date: endDate,
-                    members: members
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        name: projectName,
+                        start_date: startDate,
+                        end_date: endDate,
+                        members: members
+                    })
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert("Project created successfully!");
-                    window.location.href = "dashboard.php"; // Redirect to dashboard
-                } else {
-                    alert("Error: " + data.error);
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Project created successfully!");
+                        window.location.href = "dashboard.php"; // Redirect to dashboard
+                    } else {
+                        alert("Error: " + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
         }
 
         function addMemberField() {
@@ -68,7 +71,9 @@ $user_email = $_SESSION["email"];
         }
     </script>
 </head>
+
 <body style="background: linear-gradient(135deg, #525252, #2C3E50);">
+
     <div class="container mt-4" style="background: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
         <h2 class="text-center">Create a New Project</h2>
 
@@ -103,4 +108,5 @@ $user_email = $_SESSION["email"];
         </form>
     </div>
 </body>
+
 </html>
