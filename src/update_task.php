@@ -56,6 +56,7 @@ while ($row = $members_result->fetch_assoc()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Task | tasktopia</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="extra.css">
     <script>
         function updateTask(event) {
             event.preventDefault();
@@ -119,7 +120,7 @@ while ($row = $members_result->fetch_assoc()) {
         }
     </script>
 </head>
-<body style="background: linear-gradient(135deg, #525252, #2C3E50);">
+<body>
     <div class="container mt-4" style="background: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
         <h2 class="text-center">Update Task</h2>
 

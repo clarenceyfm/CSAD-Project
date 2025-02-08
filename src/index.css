@@ -23,11 +23,8 @@ body {
   align-items: center; /* Centers horizontally */
   text-align: center;
   min-height: 100vh;
+  background: linear-gradient(135deg, #525252, #2C3E50);
 }
-
-
-
-
 
 .label {
   display: inline-block;

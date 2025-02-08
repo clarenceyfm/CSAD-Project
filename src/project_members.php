@@ -51,7 +51,8 @@ while ($row = $members_result->fetch_assoc()) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Team | tasktopia</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="extra.css">
     <script>
         function addMember(event) {
             event.preventDefault();
@@ -107,14 +108,13 @@ while ($row = $members_result->fetch_assoc()) {
         }
     </script>
 </head>
-<body style="background: linear-gradient(135deg, #525252, #2C3E50); min-height: 100vh; display: flex; justify-content: center; align-items: center;">
+<body style="min-height: 100vh; display: flex; justify-content: center; align-items: center;">
     <div class="container mt-4" style="background: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); max-width: 600px;">
-        <h2 class="text-center">Manage Team - <?php echo htmlspecialchars($project['name']); ?></h2>
+        <h2 class="text-center">Manage Team - <?php echo htmlspecialchars($project['name']); ?></h2><br>
 
         <div class="d-flex justify-content-start mb-3">
             <a href="project_details.php?id=<?php echo $project_id; ?>" class="btn btn-secondary">Back to Project</a>
         </div>
-
         <h4>Current Team Members</h4>
         <div class="border p-3 mb-3" style="background: #ffffff; border-radius: 5px;">
             <?php if (empty($members)): ?>
@@ -122,7 +122,7 @@ while ($row = $members_result->fetch_assoc()) {
             <?php else: ?>
                 <?php foreach ($members as $member): ?>
                     <div class="d-flex justify-content-between align-items-center">
-                        <p class="m-0"><?php echo htmlspecialchars($member); ?></p>
+                        <p class="m-0" style="color: black;"><?php echo htmlspecialchars($member); ?></p>
                         <button class="btn btn-danger btn-sm" onclick="removeMember('<?php echo $member; ?>')">Remove</button>
                     </div>
                 <?php endforeach; ?>

@@ -54,10 +54,11 @@ while ($row = $task_result->fetch_assoc()) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Details | tasktopia</title>
-    <link href="./output.css" rel="stylesheet">
+    <link rel="stylesheet" href="./output.css" >
+    <link rel="stylesheet" href="index.css">
 </head>
 
-<body style="background: linear-gradient(135deg, #525252, #2C3E50);" class="min-h-screen">
+<body class="min-h-screen">
 
     <h1 class=" mt-20 text-6xl text-center text-white font-bold">tasktopia</h1>
 
@@ -68,8 +69,6 @@ while ($row = $task_result->fetch_assoc()) {
             </h2>
             <div class=" mt-8 container px-6 p-4 text-white bg-neutral-500 mb-3 h-auto rounded-lg shadow-md overflow-y-auto w-auto text-center">
                 <div class="mt-2 font-normal">Owner: <span id="name" class="text-white"><?php echo htmlspecialchars($project['owner_email']); ?></span> </div>
-                <br>
-                <div class="font-normal">Email: <span id="email" class="text-white"> - </span> </div>
                 <br>
                 <div class="font-normal">Start Date: <span id="start" class="text-white"><?php echo htmlspecialchars($project['start_date']); ?></span> </div>
                 <br>
@@ -85,6 +84,10 @@ while ($row = $task_result->fetch_assoc()) {
                         View Members
                     </button>
 
+                    <button onclick="window.location.href='gantt_chart.php?id=<?php echo $project_id; ?>'" class="cursor-pointer text-neutral-300 text-center py-2.5 px-5 ml-8 mb-2.5 rounded-xl bg-gray-800 transition delay-150 duration-300 ease-in-out hover:bg-gray-700 hover:scale-110">
+                        View Gantt Chart
+                    </button>
+
                 </div>
 
             </div>
@@ -93,12 +96,12 @@ while ($row = $task_result->fetch_assoc()) {
             <!-- <button onclick="window.location.href='gantt_chart.php?id='">View Gantt Chart</button> -->
 
 
-
             <main>
                 <div class="mt-8 container px-6 p-4 text-white bg-neutral-500 h-auto rounded-lg shadow-md overflow-y-auto w-auto text-center">
-                    <h2 class="text-3xl"> Tasks: </h2>
+                    <h2 class="text-3xl font-bold"> Tasks: </h2>
 
-                    <button onclick="window.location.href='create_task.php?project_id=<?php echo $project_id; ?>'" class="cursor-pointer text-neutral-300 text-center py-1.5 px-4 mt-7 rounded-xl bg-gray-800 transition delay-150 duration-300 ease-in-out hover:bg-gray-700 hover:scale-110">+ Add Task</button>
+                    <button onclick="window.location.href='create_task.php?project_id=<?php echo $project_id; ?>'" class="cursor-pointer text-neutral-300 text-center py-1.5 px-4 mt-7 rounded-xl bg-gray-800 transition delay-150 duration-300 ease-in-out hover:bg-gray-700 hover:scale-110">+ Add Task</button> 
+                    <br>
 
                     <div id="task-list" class=" ">
                         <div id="task-list">
