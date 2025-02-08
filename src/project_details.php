@@ -96,7 +96,7 @@ while ($row = $task_result->fetch_assoc()) {
                 <div class="mt-8 container px-6 p-4 text-white bg-neutral-500 h-auto rounded-lg shadow-md overflow-y-auto w-auto text-center">
                     <h2 class="text-3xl font-bold"> Tasks: </h2>
 
-                    <button onclick="window.location.href='create_task.php?project_id=<?php echo $project_id; ?>'" class="cursor-pointer text-neutral-300 text-center py-1.5 px-4 mt-7 rounded-xl bg-gray-800 transition delay-150 duration-300 ease-in-out hover:bg-gray-700 hover:scale-110">+ Add Task</button>
+                    <button onclick="window.location.href='create_task.php?project_id=<?php echo $project_id; ?>'" class="cursor-pointer text-neutral-300 text-center py-1.5 px-4 mt-7 mb-6 rounded-xl bg-gray-800 transition delay-150 duration-300 ease-in-out hover:bg-gray-700 hover:scale-110">+ Add Task</button>
                     <br>
 
                     <div id="task-list" class=" ">
