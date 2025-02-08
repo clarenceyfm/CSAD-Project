@@ -10,7 +10,7 @@ if (!isset($_SESSION["email"]) || empty($_SESSION["email"])) {
 
 $user_email = $_SESSION["email"];
 
-// Get task ID from URL
+
 if (!isset($_GET["id"]) || empty($_GET["id"])) {
     echo "Task ID is missing.";
     exit();
@@ -18,7 +18,7 @@ if (!isset($_GET["id"]) || empty($_GET["id"])) {
 
 $task_id = $_GET["id"];
 
-// Fetch task details (ensure user is assigned or a project owner)
+
 $sql = "SELECT t.*, p.owner_email, p.id AS project_id
         FROM tasks t 
         JOIN projects p ON t.project_id = p.id 
@@ -36,7 +36,7 @@ if ($result->num_rows === 0) {
 $task = $result->fetch_assoc();
 $project_id = $task['project_id'];
 
-// Fetch project members
+
 $members_sql = "SELECT user_email FROM project_members WHERE project_id = ?";
 $members_stmt = $conn->prepare($members_sql);
 $members_stmt->bind_param("i", $project_id);
@@ -51,11 +51,13 @@ while ($row = $members_result->fetch_assoc()) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Task | tasktopia</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="extra.css">
     <script>
         function updateTask(event) {
             event.preventDefault();
@@ -67,29 +69,31 @@ while ($row = $members_result->fetch_assoc()) {
             const progress = document.getElementById("progress").value;
 
             fetch("save_task_updates.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    task_id: <?php echo $task_id; ?>,
-                    name: taskName,
-                    assigned_email: assignedEmail,
-                    start_date: startDate,
-                    end_date: endDate,
-                    progress: progress
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        task_id: <?php echo $task_id; ?>,
+                        name: taskName,
+                        assigned_email: assignedEmail,
+                        start_date: startDate,
+                        end_date: endDate,
+                        progress: progress
+                    })
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert("Task updated successfully!");
-                    window.location.href = "project_details.php?id=<?php echo $task['project_id']; ?>";
-                } else {
-                    alert("Error: " + data.error);
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Task updated successfully!");
+                        window.location.href = "project_details.php?id=<?php echo $task['project_id']; ?>";
+                    } else {
+                        alert("Error: " + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
         }
 
         function deleteTask() {
@@ -98,20 +102,20 @@ while ($row = $members_result->fetch_assoc()) {
             }
 
             fetch("delete_task.php?id=<?php echo $task_id; ?>", {
-                method: "POST"
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert("Task deleted successfully!");
-                    window.location.href = "project_details.php?id=<?php echo $task['project_id']; ?>";
-                } else {
-                    alert("Error: " + data.error);
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
+                    method: "POST"
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Task deleted successfully!");
+                        window.location.href = "project_details.php?id=<?php echo $task['project_id']; ?>";
+                    } else {
+                        alert("Error: " + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
         }
 
         function updateProgressValue(value) {
@@ -119,7 +123,8 @@ while ($row = $members_result->fetch_assoc()) {
         }
     </script>
 </head>
-<body style="background: linear-gradient(135deg, #525252, #2C3E50);">
+
+<body>
     <div class="container mt-4" style="background: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
         <h2 class="text-center">Update Task</h2>
 
@@ -166,4 +171,5 @@ while ($row = $members_result->fetch_assoc()) {
         </form>
     </div>
 </body>
+
 </html>

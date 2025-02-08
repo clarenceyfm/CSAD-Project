@@ -4,7 +4,7 @@ require 'db_connection.php';
 
 header("Content-Type: application/json");
 
-// Ensure user is logged in
+
 if (!isset($_SESSION["email"]) || empty($_SESSION["email"])) {
     echo json_encode([]);
     exit();
@@ -12,7 +12,7 @@ if (!isset($_SESSION["email"]) || empty($_SESSION["email"])) {
 
 $user_email = $_SESSION["email"];
 
-// Fetch tasks assigned to the user that are due within the next 7 days (excluding past-due tasks)
+
 $sql = "SELECT name, end_date 
         FROM tasks 
         WHERE assigned_email = ? 
@@ -29,4 +29,3 @@ while ($row = $result->fetch_assoc()) {
 }
 
 echo json_encode($tasks);
-?>

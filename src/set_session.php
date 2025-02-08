@@ -13,7 +13,7 @@ if (!isset($data["email"]) || empty($data["email"])) {
 
 $email = $data["email"];
 
-// Verify if the email exists in MySQL
+
 $checkQuery = "SELECT * FROM users WHERE email = ?";
 $checkStmt = $conn->prepare($checkQuery);
 $checkStmt->bind_param("s", $email);
@@ -25,8 +25,7 @@ if ($checkResult->num_rows == 0) {
     exit();
 }
 
-// Store in session
+
 $_SESSION["email"] = $email;
 
 echo json_encode(["success" => true]);
-?>

@@ -3,32 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | tasktopia</title>
+    <title>Register | tasktopia</title>
     <script type="module" src="login.js"></script>
-    <link rel="stylesheet" href="index.css">
-    <link href="./output.css" rel="stylesheet">
+    <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="./output.css" >
 </head>
-<body style = "background: linear-gradient(135deg, #525252, #2C3E50);">
-    
+<body>
+    <h1 class="absolute top-20 left-1/2 transform -translate-x-1/2 text-6xl text-white font-bold">tasktopia</h1><br>
     <form>
-        <h1 class="text-neutral-300 pb-24 text-6xl">tasktopia</h1>
+        
         <div class="flex flex-col items-center text-center bg-[#444] p-[30px] rounded-[10px] shadow-[0_0_10px_rgba(0,0,0,0.3)] w-[300px]">
             <h2 class="text-white text-3xl mb-4 bg-[#525252] rounded-sm py-0.5 px-6">Login</h2>
             <input class="mt-4 text-white border-amber-100 rounded-lg px-4.5 py-0.5 border-2 w-auto h-auto text-center " 
             type="email" placeholder="Enter your email" id="email" required>
             
-            <input class="mt-3.5 text-white border-amber-100 rounded-lg px-4.5 py-0.5 border-2 w-auto h-auto text-center"
-             type="password" placeholder="Enter your password" id="password" required>
-             <br>
-            <button class="rounded-lg border border-transparent py-[0.6em] px-[1.2em] text-base font-medium font-[inherit] bg-[#1a1a1a] cursor-pointer transition-colors hover:border-lime-200 focus:outline-none focus:ring-2 focus:ring-lime-500 delay-150 duration-500 ease-in-out hover:bg-lime-200 hover:scale-110" 
-            type="submit" id="login">Login</button>
+            <input class="mt-3.5 text-white border-amber-100 rounded-lg px-4.5 py-0.5 border-2 w-auto h-auto text-center" 
+            type="password" placeholder="Enter your password" id="password" required>
+            <br>
+            <button class="rounded-lg border border-transparent py-[0.6em] px-[1.2em] text-base font-medium font-[inherit] bg-[#1a1a1a] cursor-pointer transition-colors hover:border-lime-200 focus:outline-none focus:ring-2 focus:ring-lime-500 delay-300 duration-500 ease-in-out hover:bg-lime-200 hover:scale-110" 
+            type="submit" id="login">Login
+            </button>
         </div>
 
-        <p class="font-bold text-white mt-1.5">Don't have an account?</p>
-        <a class="font-bold text-white hover:text-blue-200" 
-        href="registration.html">Register here</a>
-        <p id="error-message" style="color: red;"></p>
+        <p class="font-bold text-white mt-1.5">New to tasktopia?</p>
+        <a class="font-bold text-white hover:text-blue-200"
+        href="login.html">Sign up
+        </a>
     </form>
-
 </body>
 </html>

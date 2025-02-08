@@ -2,7 +2,7 @@
 session_start();
 require 'db_connection.php';
 
-// Check if user is logged in
+
 if (!isset($_SESSION["email"]) || empty($_SESSION["email"])) {
     header("Location: login.html");
     exit();
@@ -18,7 +18,8 @@ $user_email = $_SESSION["email"];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Project | tasktopia</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="extra.css">
     <script>
         function createProject(event) {
             event.preventDefault();
@@ -27,7 +28,7 @@ $user_email = $_SESSION["email"];
             const startDate = document.getElementById("start-date").value;
             const endDate = document.getElementById("end-date").value;
 
-            // Get all entered team members
+
             const members = [];
             document.querySelectorAll(".member-email").forEach(input => {
                 if (input.value.trim() !== "") {
@@ -51,7 +52,7 @@ $user_email = $_SESSION["email"];
                 .then(data => {
                     if (data.success) {
                         alert("Project created successfully!");
-                        window.location.href = "dashboard.php"; // Redirect to dashboard
+                        window.location.href = "dashboard.php";
                     } else {
                         alert("Error: " + data.error);
                     }
@@ -72,8 +73,7 @@ $user_email = $_SESSION["email"];
     </script>
 </head>
 
-<body style="background: linear-gradient(135deg, #525252, #2C3E50);">
-
+<body>
     <div class="container mt-4" style="background: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
         <h2 class="text-center">Create a New Project</h2>
 

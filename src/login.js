@@ -1,8 +1,8 @@
-// Import Firebase modules
+// Import Firebase modules needed
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.2.0/firebase-auth.js";
 
-// Firebase Configuration
+// Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyD-vvziG4iLBMiuBdwtzI7tjrZUFYQKV-U",
     authDomain: "csad-2154e.firebaseapp.com",

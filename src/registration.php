@@ -13,7 +13,7 @@ if (!isset($data["email"]) || empty($data["email"])) {
 
 $email = $data["email"];
 
-// Debugging: Check if data is received
+
 error_log("Received email: " . $email);
 
 // Check if email already exists
@@ -28,13 +28,13 @@ if ($checkResult->num_rows > 0) {
     exit();
 }
 
-// Insert new user
+
 $insertQuery = "INSERT INTO users (email) VALUES (?)";
 $insertStmt = $conn->prepare($insertQuery);
 $insertStmt->bind_param("s", $email);
 
 if ($insertStmt->execute()) {
-    $_SESSION["email"] = $email; // Store email in session
+    $_SESSION["email"] = $email;
     echo json_encode(["success" => true, "message" => "User inserted successfully"]);
 } else {
     echo json_encode(["success" => false, "error" => "Database insert failed: " . $conn->error]);
@@ -43,4 +43,3 @@ if ($insertStmt->execute()) {
 $insertStmt->close();
 $checkStmt->close();
 $conn->close();
-?>

@@ -4,7 +4,7 @@ require 'db_connection.php';
 
 header("Content-Type: application/json");
 
-// Ensure user is logged in
+
 if (!isset($_SESSION["email"]) || empty($_SESSION["email"])) {
     echo json_encode(["success" => false, "error" => "User not logged in"]);
     exit();
@@ -12,7 +12,7 @@ if (!isset($_SESSION["email"]) || empty($_SESSION["email"])) {
 
 $user_email = $_SESSION["email"];
 
-// Get task ID from request
+
 if (!isset($_GET["id"]) || empty($_GET["id"])) {
     echo json_encode(["success" => false, "error" => "Task ID missing"]);
     exit();
@@ -20,7 +20,7 @@ if (!isset($_GET["id"]) || empty($_GET["id"])) {
 
 $task_id = $_GET["id"];
 
-// Ensure user is authorized to delete the task
+
 $checkTask = "SELECT t.*, p.owner_email 
               FROM tasks t 
               JOIN projects p ON t.project_id = p.id 
@@ -35,7 +35,7 @@ if ($result->num_rows === 0) {
     exit();
 }
 
-// Delete task
+
 $deleteQuery = "DELETE FROM tasks WHERE id = ?";
 $stmt = $conn->prepare($deleteQuery);
 $stmt->bind_param("i", $task_id);
@@ -45,4 +45,3 @@ if ($stmt->execute()) {
 } else {
     echo json_encode(["success" => false, "error" => "Database delete failed"]);
 }
-?>

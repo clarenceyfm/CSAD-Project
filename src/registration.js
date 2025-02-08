@@ -14,11 +14,11 @@ const firebaseConfig = {
     measurementId: "G-Q6VTTRTQDN"
 };
 
-// Initialize Firebase
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Get elements
+
 document.addEventListener("DOMContentLoaded", () => {
     const submitButton = document.getElementById("submit");
 
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     .then(data => {
                         if (data.success) {
                             alert("Account created successfully!");
-                            window.location.href = "dashboard.php"; // Redirect to dashboard
+                            window.location.href = "dashboard.php"; 
                         } else {
                             alert("Error saving user: " + data.error);
                         }

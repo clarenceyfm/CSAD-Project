@@ -4,7 +4,7 @@ require 'db_connection.php';
 
 header("Content-Type: application/json");
 
-// Ensure user is logged in
+
 if (!isset($_SESSION["email"]) || empty($_SESSION["email"])) {
     echo json_encode(["success" => false, "error" => "User not logged in"]);
     exit();
@@ -12,7 +12,7 @@ if (!isset($_SESSION["email"]) || empty($_SESSION["email"])) {
 
 $user_email = $_SESSION["email"];
 
-// Read JSON input
+
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (!isset($data["project_id"]) || !isset($data["name"]) || !isset($data["start_date"]) || !isset($data["end_date"])) {
@@ -26,7 +26,7 @@ $assigned_email = !empty($data["assigned_email"]) ? $data["assigned_email"] : NU
 $start_date = $data["start_date"];
 $end_date = $data["end_date"];
 
-// Check if the user has permission to add a task
+
 $checkProject = "SELECT * FROM projects WHERE id = ? AND (owner_email = ? OR id IN 
                 (SELECT project_id FROM project_members WHERE user_email = ?))";
 $stmt = $conn->prepare($checkProject);
@@ -39,7 +39,7 @@ if ($result->num_rows === 0) {
     exit();
 }
 
-// Insert task into database
+
 $insertQuery = "INSERT INTO tasks (project_id, assigned_email, name, start_date, end_date) VALUES (?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($insertQuery);
 $stmt->bind_param("issss", $project_id, $assigned_email, $name, $start_date, $end_date);
@@ -49,4 +49,3 @@ if ($stmt->execute()) {
 } else {
     echo json_encode(["success" => false, "error" => "Database insert failed"]);
 }
-?>

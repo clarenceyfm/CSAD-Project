@@ -2,7 +2,7 @@
 session_start();
 require 'db_connection.php';
 
-// Check if user is logged in
+
 if (!isset($_SESSION["email"]) || empty($_SESSION["email"])) {
     header("Location: login.html");
     exit();
@@ -10,7 +10,7 @@ if (!isset($_SESSION["email"]) || empty($_SESSION["email"])) {
 
 $user_email = $_SESSION["email"];
 
-// Get project ID from URL
+
 if (!isset($_GET["project_id"]) || empty($_GET["project_id"])) {
     echo "Project ID is missing.";
     exit();
@@ -18,7 +18,7 @@ if (!isset($_GET["project_id"]) || empty($_GET["project_id"])) {
 
 $project_id = $_GET["project_id"];
 
-// Check if the user is part of the project (owner or member)
+
 $sql = "SELECT * FROM projects WHERE id = ? AND (owner_email = ? OR id IN 
         (SELECT project_id FROM project_members WHERE user_email = ?))";
 $stmt = $conn->prepare($sql);
@@ -31,7 +31,7 @@ if ($result->num_rows === 0) {
     exit();
 }
 
-// Fetch project members
+
 $members_sql = "SELECT user_email FROM project_members WHERE project_id = ?";
 $members_stmt = $conn->prepare($members_sql);
 $members_stmt->bind_param("i", $project_id);
@@ -46,11 +46,13 @@ while ($row = $members_result->fetch_assoc()) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Task | tasktopia</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="extra.css">
     <script>
         function createTask(event) {
             event.preventDefault();
@@ -61,32 +63,35 @@ while ($row = $members_result->fetch_assoc()) {
             const endDate = document.getElementById("end-date").value;
 
             fetch("add_task.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    project_id: <?php echo $project_id; ?>,
-                    name: taskName,
-                    assigned_email: assignedEmail,
-                    start_date: startDate,
-                    end_date: endDate
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        project_id: <?php echo $project_id; ?>,
+                        name: taskName,
+                        assigned_email: assignedEmail,
+                        start_date: startDate,
+                        end_date: endDate
+                    })
                 })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert("Task created successfully!");
-                    window.location.href = "project_details.php?id=<?php echo $project_id; ?>";
-                } else {
-                    alert("Error: " + data.error);
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Task created successfully!");
+                        window.location.href = "project_details.php?id=<?php echo $project_id; ?>";
+                    } else {
+                        alert("Error: " + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
         }
     </script>
 </head>
-<body style="background: linear-gradient(135deg, #525252, #2C3E50);">
+
+<body>
     <div class="container mt-4" style="background: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
         <h2 class="text-center">Create Task</h2>
 
@@ -125,4 +130,5 @@ while ($row = $members_result->fetch_assoc()) {
         </form>
     </div>
 </body>
+
 </html>
