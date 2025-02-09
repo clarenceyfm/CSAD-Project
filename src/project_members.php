@@ -127,7 +127,7 @@ while ($row = $members_result->fetch_assoc()) {
                 <p>No team members yet.</p>
             <?php else: ?>
                 <?php foreach ($members as $member): ?>
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
                         <p class="m-0" style="color: black;"><?php echo htmlspecialchars($member); ?></p>
                         <button class="btn btn-danger btn-sm" onclick="removeMember('<?php echo $member; ?>')">Remove</button>
                     </div>

@@ -10,7 +10,7 @@ if (!isset($_SESSION["email"]) || empty($_SESSION["email"])) {
 
 $user_email = $_SESSION["email"];
 
-
+// Check if task ID is provided
 if (!isset($_GET["id"]) || empty($_GET["id"])) {
     echo "Task ID is missing.";
     exit();
@@ -18,7 +18,7 @@ if (!isset($_GET["id"]) || empty($_GET["id"])) {
 
 $task_id = $_GET["id"];
 
-
+// Fetch task details
 $sql = "SELECT t.*, p.owner_email, p.id AS project_id
         FROM tasks t 
         JOIN projects p ON t.project_id = p.id 
@@ -36,7 +36,7 @@ if ($result->num_rows === 0) {
 $task = $result->fetch_assoc();
 $project_id = $task['project_id'];
 
-
+// Fetch project members
 $members_sql = "SELECT user_email FROM project_members WHERE project_id = ?";
 $members_stmt = $conn->prepare($members_sql);
 $members_stmt->bind_param("i", $project_id);
@@ -51,7 +51,6 @@ while ($row = $members_result->fetch_assoc()) {
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -63,37 +62,37 @@ while ($row = $members_result->fetch_assoc()) {
             event.preventDefault();
 
             const taskName = document.getElementById("task-name").value;
+            const description = document.getElementById("description").value;
             const assignedEmail = document.getElementById("assigned-email").value;
             const startDate = document.getElementById("start-date").value;
             const endDate = document.getElementById("end-date").value;
             const progress = document.getElementById("progress").value;
 
             fetch("save_task_updates.php", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        task_id: <?php echo $task_id; ?>,
-                        name: taskName,
-                        assigned_email: assignedEmail,
-                        start_date: startDate,
-                        end_date: endDate,
-                        progress: progress
-                    })
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    task_id: <?php echo $task_id; ?>,
+                    name: taskName,
+                    description: description,
+                    assigned_email: assignedEmail,
+                    start_date: startDate,
+                    end_date: endDate,
+                    progress: progress
                 })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert("Task updated successfully!");
-                        window.location.href = "project_details.php?id=<?php echo $task['project_id']; ?>";
-                    } else {
-                        alert("Error: " + data.error);
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                });
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Task updated successfully!");
+                    window.location.href = "project_details.php?id=<?php echo $task['project_id']; ?>";
+                } else {
+                    alert("Error: " + data.error);
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
         }
 
         function deleteTask() {
@@ -102,20 +101,20 @@ while ($row = $members_result->fetch_assoc()) {
             }
 
             fetch("delete_task.php?id=<?php echo $task_id; ?>", {
-                    method: "POST"
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert("Task deleted successfully!");
-                        window.location.href = "project_details.php?id=<?php echo $task['project_id']; ?>";
-                    } else {
-                        alert("Error: " + data.error);
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                });
+                method: "POST"
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Task deleted successfully!");
+                    window.location.href = "project_details.php?id=<?php echo $task['project_id']; ?>";
+                } else {
+                    alert("Error: " + data.error);
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
         }
 
         function updateProgressValue(value) {
@@ -123,7 +122,6 @@ while ($row = $members_result->fetch_assoc()) {
         }
     </script>
 </head>
-
 <body>
     <div class="container mt-4" style="background: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
         <h2 class="text-center">Update Task</h2>
@@ -132,6 +130,11 @@ while ($row = $members_result->fetch_assoc()) {
             <div class="mb-3">
                 <label for="task-name" class="form-label">Task Name</label>
                 <input type="text" class="form-control" id="task-name" value="<?php echo htmlspecialchars($task['name']); ?>" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" rows="4"><?php echo htmlspecialchars($task['description'] ?? ''); ?></textarea>
             </div>
 
             <div class="mb-3">
@@ -171,5 +174,4 @@ while ($row = $members_result->fetch_assoc()) {
         </form>
     </div>
 </body>
-
 </html>
